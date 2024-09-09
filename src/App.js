@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Navbar from "./Components/Navbar/Navbar";
+import ProductsSection from "./Components/ProductsSection/ProductsSection";
+import Toast from "./Components/Toast/Toast";
 
-function App() {
+import productsContext from "./Contexts/ProductsContext";
+
+import "./App.css";
+
+import products from "./data/products";
+import Cart from "./Components/Cart/Cart";
+
+export default function App() {
+  const [allProducts, setAllProducts] = useState(products);
+  const [userCart, setUserCart] = useState([])
+  const [isShowToast, setIsShowToast] = useState(false)
+  const [isShowCart, setIsShowCart] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <productsContext.Provider value={{
+        allProducts,
+        userCart,
+        setUserCart,
+        isShowToast,
+        setIsShowToast,
+        isShowCart,
+        isShowCart
+      }}>
+        <Navbar />
+
+        <main className="pb-5">
+          <div className="container">
+            <h1 className="text-center main-title">All Products</h1>
+              <ProductsSection />
+          </div>
+        </main>
+        <Toast />
+
+        <Cart />
+      </productsContext.Provider>
     </div>
   );
 }
-
-export default App;
