@@ -35,6 +35,18 @@ export default function ProductsSection() {
                       setTimeout(() => {
                         contextData.setIsShowToast(false);
                       }, 3000);
+
+                      let newUserCartProduct = {
+                        id: contextData.userCart.length + 1,
+                        title: product.title,
+                        price: product.price,
+                        count: 1,
+                      };
+
+                      contextData.setUserCart((prevProducts) => [
+                        ...prevProducts,
+                        newUserCartProduct,
+                      ]);
                     }}
                   >
                     Add To Cart
