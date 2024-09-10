@@ -36,17 +36,45 @@ export default function ProductsSection() {
                         contextData.setIsShowToast(false);
                       }, 3000);
 
-                      let newUserCartProduct = {
-                        id: contextData.userCart.length + 1,
-                        title: product.title,
-                        price: product.price,
-                        count: 1,
-                      };
+                      let isInUserCart = contextData.userCart.some(
+                        (bagProduct) => bagProduct.title === product.title
+                      );
 
-                      contextData.setUserCart((prevProducts) => [
-                        ...prevProducts,
-                        newUserCartProduct,
-                      ]);
+                      if (!isInUserCart) {
+                        let newUserCartProduct = {
+                          id: contextData.userCart.length + 1,
+                          title: product.title,
+                          price: product.price,
+                          count: 1,
+                        };
+
+                        contextData.setUserCart((prevProducts) => [
+                          ...prevProducts,
+                          newUserCartProduct,
+                        ]);
+                      } else {
+                        let userCart = [...contextData.userCart];
+
+                        // Way 1
+                        // userCart.some(bagProduct => {
+                        //   if (bagProduct.title === product.title) {
+                        //     bagProduct.count += 1
+                        //     return true
+                        //   }
+                        // })
+
+                        // contextData.setUserCart(userCart)
+
+                        // Way 2
+                        let newUserCart = userCart.map((bagProduct) => {
+                          if (bagProduct.title === product.title) {
+                            bagProduct.count += 1;
+                          }
+                          return bagProduct;
+                        });
+
+                        contextData.setUserCart(newUserCart);
+                      }
                     }}
                   >
                     Add To Cart
